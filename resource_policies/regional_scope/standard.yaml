@@ -13,3 +13,6 @@ resourcePolicy:
       condition:
         match:
           expr: P.attr.region != R.attr.region
+      output:
+        expr: |-
+          {"principal": P.id, "resource": R.id, "principal_region": P.attr.region, "resource_region": R.attr.region, "message": "Regions are not matched."}
