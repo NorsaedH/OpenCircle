@@ -59,7 +59,7 @@ tests:
           create: EFFECT_ALLOW
           read: EFFECT_ALLOW
           update: EFFECT_DENY
-          delete: EFFECT_ALLOW
+          delete: EFFECT_DENY
           publish: EFFECT_ALLOW
 
       - resource: standard#1
