@@ -1,0 +1,5 @@
+apiVersion: api.cerbos.dev/v1
+exportVariables:
+  name: common_variables
+  definitions:
+    onCorporateNetwork: P.attr.ipv4Address.inIPAddrRange("192.168.1.0/24")

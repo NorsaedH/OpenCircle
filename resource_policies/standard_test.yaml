@@ -1,0 +1,118 @@
+# yaml-language-server: $schema=https://api.cerbos.dev/latest/cerbos/policy/v1/TestSuite.schema.json
+# docs: https://docs.cerbos.dev/cerbos/latest/policies/compile#testing
+
+name: standardTestSuite
+description: Tests for verifying the standard resource policy
+options:
+  now: '2025-04-01T14:00:00.000Z'
+
+tests:
+  - name: standard actions
+    input:
+      principals:
+        - RIGAGebruiker#1
+        - RIGABeheerder#1
+        - RIGABeheerder#2
+        - ANONYMOUS#1
+        - RIGAManager#1
+      resources:
+        - standard#1
+        - standard#2
+      actions:
+        - create
+        - read
+        - update
+        - delete
+        - publish
+        
+    expected:
+      - resource: standard#1
+        principal: RIGAGebruiker#1
+        actions:
+          create: EFFECT_ALLOW
+          read: EFFECT_ALLOW
+          update: EFFECT_ALLOW
+          delete: EFFECT_DENY
+          publish: EFFECT_DENY
+
+      - resource: standard#2
+        principal: RIGAGebruiker#1
+        actions:
+          create: EFFECT_ALLOW
+          read: EFFECT_ALLOW
+          update: EFFECT_DENY
+          delete: EFFECT_DENY
+          publish: EFFECT_DENY
+
+      - resource: standard#1
+        principal: RIGABeheerder#1
+        actions:
+          create: EFFECT_ALLOW
+          read: EFFECT_ALLOW
+          update: EFFECT_ALLOW
+          delete: EFFECT_DENY
+          publish: EFFECT_ALLOW
+
+      - resource: standard#2
+        principal: RIGABeheerder#1
+        actions:
+          create: EFFECT_ALLOW
+          read: EFFECT_ALLOW
+          update: EFFECT_DENY
+          delete: EFFECT_ALLOW
+          publish: EFFECT_ALLOW
+
+      - resource: standard#1
+        principal: RIGABeheerder#2
+        actions:
+          create: EFFECT_ALLOW
+          read: EFFECT_ALLOW
+          update: EFFECT_ALLOW
+          delete: EFFECT_DENY
+          publish: EFFECT_ALLOW
+
+      - resource: standard#2
+        principal: RIGABeheerder#2
+        actions:
+          create: EFFECT_ALLOW
+          read: EFFECT_ALLOW
+          update: EFFECT_DENY
+          delete: EFFECT_DENY
+          publish: EFFECT_ALLOW
+
+      - resource: standard#1
+        principal: ANONYMOUS#1
+        actions:
+          create: EFFECT_DENY
+          read: EFFECT_ALLOW
+          update: EFFECT_DENY
+          delete: EFFECT_DENY
+          publish: EFFECT_DENY
+
+      - resource: standard#2
+        principal: ANONYMOUS#1
+        actions:
+          create: EFFECT_DENY
+          read: EFFECT_DENY
+          update: EFFECT_DENY
+          delete: EFFECT_DENY
+          publish: EFFECT_DENY
+
+      - resource: standard#1
+        principal: RIGAManager#1
+        actions:
+          create: EFFECT_ALLOW
+          read: EFFECT_ALLOW
+          update: EFFECT_ALLOW
+          delete: EFFECT_DENY
+          publish: EFFECT_ALLOW
+
+      - resource: standard#2
+        principal: RIGAManager#1
+        actions:
+          create: EFFECT_ALLOW
+          read: EFFECT_ALLOW
+          update: EFFECT_DENY
+          delete: EFFECT_DENY
+          publish: EFFECT_ALLOW
+

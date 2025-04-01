@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=https://api.cerbos.dev/latest/cerbos/policy/v1/TestFixture/Resources.schema.json
+# docs: https://docs.cerbos.dev/cerbos/latest/policies/compile#_sharing_test_fixtures
+
+resources:
+  profile#1:
+    id: profile#1
+    kind: profile
+    
+  standard#1:
+    id: standard#1
+    kind: standard
+    attr:
+      status: PUBLISHED
+
+  standard#2:
+    id: standard#2
+    kind: standard
+    scope: regional
+    attr:
+      status: DELETED
+      region: EMEA
+
+  rule#1:
+    id: rule#1
+    kind: rule
+
+  configuration#1:
+    id: configuration#1
+    kind: configuration
+
+  codelist#1:
+    id: codelist#1
+    kind: codelist
+
+

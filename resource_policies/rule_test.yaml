@@ -1,0 +1,63 @@
+# yaml-language-server: $schema=https://api.cerbos.dev/latest/cerbos/policy/v1/TestSuite.schema.json
+# docs: https://docs.cerbos.dev/cerbos/latest/policies/compile#testing
+
+name: ruleTestSuite
+description: Tests for verifying the rule resource policy
+tests:
+  - name: rule actions
+    input:
+      principals:
+        - RIGAGebruiker#1
+        - RIGABeheerder#1
+        - RIGABeheerder#2
+        - ANONYMOUS#1
+        - RIGAManager#1
+      resources:
+        - rule#1
+      actions:
+        - create
+        - read
+        - update
+        - delete
+        
+    expected:
+      - resource: rule#1
+        principal: RIGAGebruiker#1
+        actions:
+          create: EFFECT_ALLOW
+          read: EFFECT_ALLOW
+          update: EFFECT_ALLOW
+          delete: EFFECT_ALLOW
+
+      - resource: rule#1
+        principal: RIGABeheerder#1
+        actions:
+          create: EFFECT_ALLOW
+          read: EFFECT_ALLOW
+          update: EFFECT_ALLOW
+          delete: EFFECT_ALLOW
+
+      - resource: rule#1
+        principal: RIGABeheerder#2
+        actions:
+          create: EFFECT_ALLOW
+          read: EFFECT_ALLOW
+          update: EFFECT_ALLOW
+          delete: EFFECT_ALLOW
+
+      - resource: rule#1
+        principal: ANONYMOUS#1
+        actions:
+          create: EFFECT_DENY
+          read: EFFECT_ALLOW
+          update: EFFECT_DENY
+          delete: EFFECT_DENY
+
+      - resource: rule#1
+        principal: RIGAManager#1
+        actions:
+          create: EFFECT_ALLOW
+          read: EFFECT_ALLOW
+          update: EFFECT_ALLOW
+          delete: EFFECT_ALLOW
+

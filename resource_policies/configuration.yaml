@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://api.cerbos.dev/latest/cerbos/policy/v1/Policy.schema.json
+# docs: https://docs.cerbos.dev/cerbos/latest/policies/resource_policies
+
+apiVersion: api.cerbos.dev/v1
+resourcePolicy:
+  # Importing `common_roles` in so they can be used in the resource policy.
+  importDerivedRoles:
+    - common_roles
+
+  # This resource file is reviewed for when checking permissions when a resource
+  # is of `kind` "configuration:object"
+  resource: configuration
+  version: default
+  rules:
+    # All of the `principal` is allowed to perform action `read`.
+    - actions:
+        - read
+      effect: EFFECT_ALLOW
+      roles:
+        - "*"

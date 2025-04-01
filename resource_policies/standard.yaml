@@ -1,0 +1,83 @@
+# yaml-language-server: $schema=https://api.cerbos.dev/latest/cerbos/policy/v1/Policy.schema.json
+# docs: https://docs.cerbos.dev/cerbos/latest/policies/resource_policies
+
+apiVersion: api.cerbos.dev/v1
+resourcePolicy:
+  # Importing `common_roles` in so they can be used in the resource policy.
+  importDerivedRoles:
+    - common_roles
+
+  # Importing `common_variables` in so they can be used in the resource policy.
+  variables:
+    import: 
+      - common_variables  
+
+  # This resource file is reviewed for when checking permissions when a resource
+  # is of `kind` "standard:object"
+  resource: standard
+  version: default
+  rules:
+    # If the `principal`s role is `RIGAGebruiker`, `RIGAManager`, or `RIGABeheerder` then they are allowed to perform actions `create` and `read`.
+    - actions:
+        - create
+        - read
+      effect: EFFECT_ALLOW
+      derivedRoles:
+        - RIGAGebruiker
+        - RIGAManager
+        - RIGABeheerder
+
+    # If the `principal`s role is `RIGAGebruiker`, `RIGAManager`, or `RIGABeheerder` and the `resource` status is either `NEW`, `PROCESSING`,
+    # `WARNING`, `ILLEGAL`, or `PUBLISHED` then they are allowed to perform action `update`.
+    - actions:
+        - update
+      effect: EFFECT_ALLOW
+      condition:
+        match:
+          expr: R.attr.status in ['NEW', 'PROCESSING', 'WARNING', 'ILLEGAL', 'PUBLISHED']
+      derivedRoles:
+        - RIGAGebruiker
+        - RIGAManager
+        - RIGABeheerder
+
+    # If the `principal`s role is `ANONYMOUS` and the `resource` status is `PUBLISHED` then they are allowed to perform action `read`.
+    - actions:
+        - read
+      effect: EFFECT_ALLOW
+      roles:
+        - ANONYMOUS
+      condition:
+        match:
+          expr: R.attr.status == 'PUBLISHED'
+
+    # If the `principal`s role is `ADMIN_OWNER`, the `resource` status is either `NEW`, `PROCESSING`,
+    # `WARNING`, `ILLEGAL`, or `DELETED` and the request is within business hours then they are allowed to perform action `delete`.
+    # Otherwise, if the `principal`s role is `ADMIN_OWNER`, the `resource` status is either `NEW`, `PROCESSING`,
+    # `WARNING`, `ILLEGAL`, or `DELETED` and the principal's IP address is within the "192.168.1.0/24" subnet then they are allowed to perform action `delete`.
+    - actions:
+        - delete
+      effect: EFFECT_ALLOW
+      condition:
+        match:
+          all:
+            of:
+              - expr: (
+                        R.attr.status in ['NEW', 'PROCESSING', 'WARNING', 'ILLEGAL', 'DELETED'] 
+                        && (now().getHours() > 9 && now().getHours() < 17)
+                      ) 
+                      || 
+                      (
+                        R.attr.status in ['NEW', 'PROCESSING', 'WARNING', 'ILLEGAL', 'DELETED'] 
+                        && V.onCorporateNetwork
+                      )
+
+      derivedRoles:
+        - ADMIN_OWNER
+
+    # If the `principal`s role is `RIGAManager` or `RIGABeheerder` then they are allowed to perform action `publish`.
+    - actions:
+        - publish
+      effect: EFFECT_ALLOW
+      derivedRoles:
+        - RIGAManager
+        - RIGABeheerder

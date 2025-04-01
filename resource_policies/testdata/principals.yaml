@@ -1,0 +1,44 @@
+# yaml-language-server: $schema=https://api.cerbos.dev/latest/cerbos/policy/v1/TestFixture/Principals.schema.json
+# docs: https://docs.cerbos.dev/cerbos/latest/policies/compile#_sharing_test_fixtures
+
+principals:
+  RIGAGebruiker#1:
+    id: RIGAGebruiker#1
+    roles:
+      - USER
+    attr:
+      group: RIGA
+      assigned_to: ["standard#1"]
+      region: NA
+
+  RIGABeheerder#1:
+    id: RIGABeheerder#1
+    roles:
+      - ADMIN
+    attr:
+      group: RIGA
+      assigned_to: ["standard#2"]
+      region: EMEA
+
+  RIGABeheerder#2:
+    id: RIGABeheerder#2
+    roles:
+      - ADMIN
+    attr:
+      group: RIGA
+      assigned_to: ["standard#1"]
+      region: AS
+
+  ANONYMOUS#1:
+    id: ANONYMOUS#1
+    roles:
+      - ANONYMOUS
+      
+  RIGAManager#1:
+    id: RIGAManager#1
+    roles:
+      - MANAGER
+    attr:
+      group: RIGA
+      assigned_to: ["standard#1"]
+      region: NA

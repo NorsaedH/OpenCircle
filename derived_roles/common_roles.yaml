@@ -1,0 +1,35 @@
+apiVersion: api.cerbos.dev/v1
+derivedRoles:
+  name: common_roles
+  definitions:
+    # If the `principal`s role is `USER` and they belong to the `RIGA` group then the `principal` is considered as `RIGAGebruiker`.
+    - name: RIGAGebruiker
+      parentRoles:
+        - USER
+      condition:
+        match:
+          expr: P.attr.group == "RIGA"
+
+    # If the `principal`s role is `ADMIN` and they belong to the `RIGA` group then the `principal` is considered as `RIGABeheerder`.
+    - name: RIGABeheerder
+      parentRoles:
+        - ADMIN
+      condition:
+        match:
+          expr: P.attr.group == "RIGA"
+          
+
+    # If the `principal`s role is `MANAGER` and they belong to the `RIGA` group then the `principal` is considered as `RIGAMANAGER`.
+    - name: RIGAManager
+      parentRoles:
+        - MANAGER
+      condition:
+        match:
+          expr: P.attr.group == "RIGA"
+
+    - name: ADMIN_OWNER
+      parentRoles:
+        - ADMIN
+      condition:
+        match:
+          expr: R.id in P.attr.assigned_to

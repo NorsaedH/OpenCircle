@@ -1,0 +1,15 @@
+apiVersion: api.cerbos.dev/v1
+resourcePolicy:
+  version: default
+  resource: standard
+  scope: regional
+  importDerivedRoles:
+    - common_roles
+  rules:
+    - actions: ["delete"]
+      effect: EFFECT_DENY
+      derivedRoles:
+        - ADMIN_OWNER
+      condition:
+        match:
+          expr: P.attr.region != R.attr.region

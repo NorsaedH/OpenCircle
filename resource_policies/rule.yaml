@@ -1,0 +1,54 @@
+# yaml-language-server: $schema=https://api.cerbos.dev/latest/cerbos/policy/v1/Policy.schema.json
+# docs: https://docs.cerbos.dev/cerbos/latest/policies/resource_policies
+
+apiVersion: api.cerbos.dev/v1
+resourcePolicy:
+  # Importing `common_roles` in so they can be used in the resource policy.
+  importDerivedRoles:
+    - common_roles
+
+  # This resource file is reviewed for when checking permissions when a resource
+  # is of `kind` "rule:object"
+  resource: rule
+  version: default
+  rules:
+    # If the `principal`s role is `RIGABeheerder` then all the actions are allowed.
+    - actions:
+        - "*"
+      effect: EFFECT_ALLOW
+      derivedRoles:
+        - RIGABeheerder
+
+    # If the `principal`s role is `RIGAGebruiker` or `RIGAManager` then they are allowed to perform action `create`.
+    - actions:
+        - create
+      effect: EFFECT_ALLOW
+      derivedRoles:
+        - RIGAGebruiker
+        - RIGAManager
+
+    # If the `principal`s role is `RIGAGebruiker`, `RIGAManager`, or `ANONYMOUS` then they are allowed to perform action `read`.
+    - actions:
+        - read
+      effect: EFFECT_ALLOW
+      roles:
+        - ANONYMOUS
+      derivedRoles:
+        - RIGAGebruiker
+        - RIGAManager
+
+    # If the `principal`s role is `RIGAGebruiker` or `RIGAManager` then they are allowed to perform action `update`.
+    - actions:
+        - update
+      effect: EFFECT_ALLOW
+      derivedRoles:
+        - RIGAGebruiker
+        - RIGAManager
+
+    # If the `principal`s role is `RIGAGebruiker` or `RIGAManager` then they are allowed to perform action `delete`.       
+    - actions:
+        - delete
+      effect: EFFECT_ALLOW
+      derivedRoles:
+        - RIGAGebruiker
+        - RIGAManager

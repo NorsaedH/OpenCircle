@@ -1,0 +1,45 @@
+# yaml-language-server: $schema=https://api.cerbos.dev/latest/cerbos/policy/v1/TestSuite.schema.json
+# docs: https://docs.cerbos.dev/cerbos/latest/policies/compile#testing
+
+name: configurationTestSuite
+description: Tests for verifying the configuration resource policy
+tests:
+  - name: configuration actions
+    input:
+      principals:
+        - RIGAGebruiker#1 #user1
+        - RIGABeheerder#1 #admin1
+        - RIGABeheerder#2 #admin2
+        - ANONYMOUS#1 
+        - RIGAManager#1
+      resources:
+        - configuration#1
+      actions:
+        - read
+        
+    expected:
+      - resource: configuration#1
+        principal: RIGAGebruiker#1
+        actions:
+          read: EFFECT_ALLOW
+
+      - resource: configuration#1
+        principal: RIGABeheerder#1
+        actions:
+          read: EFFECT_ALLOW
+
+      - resource: configuration#1
+        principal: RIGABeheerder#2
+        actions:
+          read: EFFECT_ALLOW
+
+      - resource: configuration#1
+        principal: ANONYMOUS#1
+        actions:
+          read: EFFECT_ALLOW
+
+      - resource: configuration#1
+        principal: RIGAManager#1
+        actions:
+          read: EFFECT_ALLOW
+
