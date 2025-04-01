@@ -15,7 +15,7 @@ resourcePolicy:
     # If the `principal`s role is `RIGABeheerder` then all the actions are allowed.
     - actions:
         - "*"
-      effect: EFFECT_DENY
+      effect: EFFECT_ALLOW
       derivedRoles:
         - RIGABeheerder
 
