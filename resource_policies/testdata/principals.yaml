@@ -18,7 +18,7 @@ principals:
     attr:
       group: RIGA
       assigned_to: ["standard#2"]
-      region: EMEA
+      region: US
 
   RIGABeheerder#2:
     id: RIGABeheerder#2
